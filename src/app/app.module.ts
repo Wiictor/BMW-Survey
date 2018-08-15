@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { MatStepperModule, MatCheckboxModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatOptionModule, MatSelectModule } from '@angular/material'
+import { MatStepperModule, MatCheckboxModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatOptionModule, MatSelectModule, MatRadioModule } from '@angular/material'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { CustomFormsModule } from 'ng2-validation'
@@ -24,7 +24,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule, BrowserAnimationsModule, FormsModule, ReactiveFormsModule,
     MatStepperModule, MatCheckboxModule, MatButtonModule, MatFormFieldModule,
-    MatInputModule, MatToolbarModule, MatOptionModule, MatSelectModule,
+    MatInputModule, MatToolbarModule, MatOptionModule, MatSelectModule, MatRadioModule,
     RouterModule.forRoot(appRoutes),CustomFormsModule
   ],
   providers: [],

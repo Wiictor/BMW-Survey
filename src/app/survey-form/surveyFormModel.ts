@@ -12,10 +12,10 @@ export class SurveyFormModel {
     constructor(){
         this.Age = 0;
         this.Gender = "";
-        this.OwnCarDrivingLicense = 0;
-        this.FirstCar = 0;
+        this.OwnCarDrivingLicense = 1;
+        this.FirstCar = 1;
         this.DriveTrainPreferred = "";
-        this.DriftingInterest = 0;
+        this.DriftingInterest = 1;
         this.BmwDrivenNumber = 0;
         this.BmwDrivenList = null;
         this.isTargetableClient = true;

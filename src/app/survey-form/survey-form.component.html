@@ -12,27 +12,41 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div>
+      <div class="button-container">
         <button mat-button class="btn btn-primary" (click)="nextStep(1)">Next</button>
       </div>
     </form>
   </mat-step>
   <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
-      <mat-form-field>
-        <input matInput placeholder="Address" formControlName="secondCtrl" required>
-      </mat-form-field>
-      <div>
+      <p>Do you own a car driving license?</p>
+      <mat-radio-group required>
+        <mat-radio-button 
+        *ngFor="let carDrivingLicenseOption of carDrivingLicenseOptions" 
+        [value]="carDrivingLicenseOption.value"
+        [checked]="carDrivingLicenseOption.selected"
+        (change)="onChangeDrivingLicenseOption($event.value)">
+          {{ carDrivingLicenseOption.viewValue }}
+        </mat-radio-button>
+       </mat-radio-group>
+      <div class="button-container">
         <button mat-button class="btn btn-primary" (click)="nextStep(2)">Next</button>
       </div>
     </form>
   </mat-step>
   <mat-step [stepControl]="thirdFormGroup">
       <form [formGroup]="thirdFormGroup">
-        <mat-form-field>
-          <input matInput placeholder="Address" formControlName="thirdCtrl">
-        </mat-form-field>
-        <div>
+          <p>Is this your first car?</p>
+          <mat-radio-group required>
+            <mat-radio-button 
+            *ngFor="let firstCarOption of firstCarOptions" 
+            [value]="firstCarOption.value"
+            [checked]="firstCarOption.selected"
+            (change)="onChangeFirstCarOption($event.value)">
+              {{ firstCarOption.viewValue }}
+            </mat-radio-button>
+           </mat-radio-group>
+        <div class="button-container">
           <button mat-button class="btn btn-primary" (click)="nextStep(3)">Next</button>
         </div>
       </form>
@@ -40,12 +54,34 @@
   <mat-step [stepControl]="fourthFormGroup">
     <form [formGroup]="fourthFormGroup">
       <mat-form-field>
-        <input matInput placeholder="Address" formControlName="fourthCtrl" required>
+          <mat-select placeholder="Which drivetrain do you prefer?" formControlName="drivetrainCtrl" [value]="surveyForm.DriveTrainPreferred" (selectionChange)="onDriveTrainChange($event.value)" required>
+            <mat-option *ngFor="let driveTrainOption of driveTrainOptions" [value]="driveTrainOption.value">
+              {{driveTrainOption.viewValue}}
+            </mat-option>
+          </mat-select>
       </mat-form-field>
-      <div>
+      <p>Do you care about drifting</p>
+      <mat-radio-group required>
+        <mat-radio-button 
+        *ngFor="let driftingOption of driftingOptions" 
+        [value]="driftingOption.value"
+        [checked]="driftingOption.selected"
+        (change)="onChangeDriftingOption($event.value)">
+          {{ driftingOption.viewValue }}
+        </mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field>
+          <input matInput placeholder="How many BMWs did you drive?" type="number" min="0" [value]="surveyForm.BmwDrivenNumber" formControlName="bmwDrivenNumberCtrl" (change)="onBmwDrivenChange($event.target.value)" required>
+        </mat-form-field>
+      <mat-form-field *ngFor="let bmwDrivenNumber of surveyForm.BmwDrivenNumber">
+          <input matInput placeholder="BMW Model" type="text" [value]="" formControlName="bmwDrivenModelCtrl" (change)="onBmwModelChange($event.target.value)" required>
+      </mat-form-field>
+      <div class="button-container">
         <button mat-button class="btn btn-primary" (click)="nextStep(4)">Next</button>
       </div>
     </form>
+  </mat-step>
+  <mat-step [stepControl]="fifthFormGroup">
   </mat-step>
 </mat-horizontal-stepper>
 <div class="row" *ngIf="!testInProgress">
