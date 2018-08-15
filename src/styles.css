@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+.container {
+    margin-top: 30px;
+  }
+  
+.bmw-logo{
+    margin: 0 4px 3px 0;
+    height: 35px;
+    vertical-align: middle;
+}
+.fill-remaining-space {
+    flex: 1 1 auto;
+  }

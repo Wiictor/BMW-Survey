@@ -1,0 +1,61 @@
+<mat-horizontal-stepper [linear]="isLinear" #stepper *ngIf="testInProgress">
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <mat-form-field>
+        <input matInput placeholder="What's your age?" type="number" min="0" max="100" [value]="surveyForm.Age" formControlName="ageCtrl" (change)="onAgeChange($event.target.value)" required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-select placeholder="What's your gender?" formControlName="genderCtrl" [value]="surveyForm.Gender" (selectionChange)="onGenderChange($event.value)" required>
+          <mat-option *ngFor="let gender of genders" [value]="gender.value">
+            {{gender.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button class="btn btn-primary" (click)="nextStep(1)">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <mat-form-field>
+        <input matInput placeholder="Address" formControlName="secondCtrl" required>
+      </mat-form-field>
+      <div>
+        <button mat-button class="btn btn-primary" (click)="nextStep(2)">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="thirdFormGroup">
+      <form [formGroup]="thirdFormGroup">
+        <mat-form-field>
+          <input matInput placeholder="Address" formControlName="thirdCtrl">
+        </mat-form-field>
+        <div>
+          <button mat-button class="btn btn-primary" (click)="nextStep(3)">Next</button>
+        </div>
+      </form>
+  </mat-step>
+  <mat-step [stepControl]="fourthFormGroup">
+    <form [formGroup]="fourthFormGroup">
+      <mat-form-field>
+        <input matInput placeholder="Address" formControlName="fourthCtrl" required>
+      </mat-form-field>
+      <div>
+        <button mat-button class="btn btn-primary" (click)="nextStep(4)">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    {{finishText}}
+    <div>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
+<div class="row" *ngIf="!testInProgress">
+  {{finishText}}
+</div>
+
+

@@ -1,14 +1,31 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { MatStepperModule, MatCheckboxModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatOptionModule, MatSelectModule } from '@angular/material'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Routes, RouterModule } from '@angular/router';
+import { CustomFormsModule } from 'ng2-validation'
 
 import { AppComponent } from './app.component';
+import { SurveyFormComponent } from './survey-form/survey-form.component';
+import { HomeComponent } from './home/home.component';
+
+const appRoutes: Routes = [
+  {path: '', component: HomeComponent},
+  {path: 'survey-form', component: SurveyFormComponent}
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SurveyFormComponent,
+    HomeComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule, BrowserAnimationsModule, FormsModule, ReactiveFormsModule,
+    MatStepperModule, MatCheckboxModule, MatButtonModule, MatFormFieldModule,
+    MatInputModule, MatToolbarModule, MatOptionModule, MatSelectModule,
+    RouterModule.forRoot(appRoutes),CustomFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
