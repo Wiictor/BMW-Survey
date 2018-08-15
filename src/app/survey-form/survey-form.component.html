@@ -47,12 +47,6 @@
       </div>
     </form>
   </mat-step>
-  <mat-step>
-    {{finishText}}
-    <div>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
-  </mat-step>
 </mat-horizontal-stepper>
 <div class="row" *ngIf="!testInProgress">
   {{finishText}}
