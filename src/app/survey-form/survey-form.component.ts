@@ -202,17 +202,23 @@ export class SurveyFormComponent implements OnInit, OnChanges {
   submitForm(){
     this.testInProgress = false;
     console.log("Form has been submitted");
-    var database = this._localStorageService.get("survey-values");
+    var database = this._localStorageService.get<string>("survey-form-list");
 
-    let listOfSurveys  = [
-      this.surveyForm
-    ];
-    let newSurveyFormComponent: DatabaseStructure = {
-      ListOfSurveys: listOfSurveys
-    };
-
-    this._localStorageService.set("survey-form", JSON.stringify(newSurveyFormComponent));
-    var localStorage = this._localStorageService.get("survey-form");
+    if(database != null || database != "undefined"){
+      //var currentDatabase = database.json()
+    }
+    else{
+      let listOfSurveys  = [
+        this.surveyForm
+      ];
+      let newSurveyFormComponent: DatabaseStructure = {
+        ListOfSurveys: listOfSurveys
+      };
+  
+      this._localStorageService.set("survey-form", JSON.stringify(newSurveyFormComponent));
+    }
+    
+    var localStorage = this._localStorageService.get("survey-form-list");
     console.log(localStorage);
 
     // if(database == undefined || database == null){
