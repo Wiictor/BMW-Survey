@@ -55,12 +55,12 @@
     <form [formGroup]="fourthFormGroup">
       <mat-form-field>
           <mat-select placeholder="Which drivetrain do you prefer?" formControlName="drivetrainCtrl" [value]="surveyForm.DriveTrainPreferred" (selectionChange)="onDriveTrainChange($event.value)" required>
-            <mat-option *ngFor="let driveTrainOption of driveTrainOptions" [value]="driveTrainOption.value">
+            <mat-option *ngFor="let driveTrainOption of driveTrainOptions" [value]="driveTrainOption.value" >
               {{driveTrainOption.viewValue}}
             </mat-option>
           </mat-select>
       </mat-form-field>
-      <p>Do you care about drifting</p>
+      <p>Do you care about drifting?</p>
       <mat-radio-group required>
         <mat-radio-button 
         *ngFor="let driftingOption of driftingOptions" 
@@ -70,18 +70,21 @@
           {{ driftingOption.viewValue }}
         </mat-radio-button>
       </mat-radio-group>
+      <br>
       <mat-form-field>
           <input matInput placeholder="How many BMWs did you drive?" type="number" min="0" [value]="surveyForm.BmwDrivenNumber" formControlName="bmwDrivenNumberCtrl" (change)="onBmwDrivenChange($event.target.value)" required>
         </mat-form-field>
-      <mat-form-field *ngFor="let bmwDrivenNumber of surveyForm.BmwDrivenNumber">
-          <input matInput placeholder="BMW Model" type="text" [value]="" formControlName="bmwDrivenModelCtrl" (change)="onBmwModelChange($event.target.value)" required>
-      </mat-form-field>
+
       <div class="button-container">
         <button mat-button class="btn btn-primary" (click)="nextStep(4)">Next</button>
       </div>
     </form>
   </mat-step>
   <mat-step [stepControl]="fifthFormGroup">
+        <mat-form-field *ngFor="let guest of fifthFormGroup.controls.bmwDrivenCars.controls; let i = index">
+            <input matInput placeholder="Model of driven BMW {{i + 1}}" type="text" [value]="" (change)="onBmwModelChange($event.target.value, i)" required>
+            <br>
+        </mat-form-field>
   </mat-step>
 </mat-horizontal-stepper>
 <div class="row" *ngIf="!testInProgress">

@@ -21,3 +21,7 @@
 .button-container {
     margin-top: 20px;
 }
+
+.mat-horizontal-stepper-header, .mat-stepper-horizontal-line{
+    display: none !important;
+}

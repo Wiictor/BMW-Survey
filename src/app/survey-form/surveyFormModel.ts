@@ -21,3 +21,7 @@ export class SurveyFormModel {
         this.isTargetableClient = true;
     }
 }
+
+export interface DatabaseStructure {
+    ListOfSurveys: Array<SurveyFormModel>;
+}

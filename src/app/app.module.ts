@@ -5,6 +5,7 @@ import { MatStepperModule, MatCheckboxModule, MatButtonModule, MatFormFieldModul
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { CustomFormsModule } from 'ng2-validation'
+import { LocalStorageModule } from 'angular-2-local-storage';
 
 import { AppComponent } from './app.component';
 import { SurveyFormComponent } from './survey-form/survey-form.component';
@@ -25,7 +26,11 @@ const appRoutes: Routes = [
     BrowserModule, BrowserAnimationsModule, FormsModule, ReactiveFormsModule,
     MatStepperModule, MatCheckboxModule, MatButtonModule, MatFormFieldModule,
     MatInputModule, MatToolbarModule, MatOptionModule, MatSelectModule, MatRadioModule,
-    RouterModule.forRoot(appRoutes),CustomFormsModule
+    RouterModule.forRoot(appRoutes),CustomFormsModule, 
+    LocalStorageModule.withConfig({
+      prefix: 'bmw-survey',
+      storageType: 'localStorage'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

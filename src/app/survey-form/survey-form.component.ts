@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import { MatStepper, MatRadioChange } from '@angular/material';
-import { SurveyFormModel } from './surveyFormModel';
+import { SurveyFormModel, DatabaseStructure } from './surveyFormModel';
 import { SelectOption } from '../shared/selectOptionInterface';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
   selector: 'app-survey-form',
@@ -10,6 +11,7 @@ import { SelectOption } from '../shared/selectOptionInterface';
   styleUrls: ['./survey-form.component.css'],
   providers: [FormBuilder]
 })
+
 export class SurveyFormComponent implements OnInit, OnChanges {
   @ViewChild('stepper') stepper: MatStepper;
 
@@ -22,12 +24,14 @@ export class SurveyFormComponent implements OnInit, OnChanges {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   fourthFormGroup: FormGroup;
+  fifthFormGroup: FormGroup;
 
   surveyForm: SurveyFormModel;
 
   lastStepNumber = 4;
 
   finishText = "";
+  carList = Array<String>();
   
   genders: SelectOption[] = [
     {value: 'M', viewValue: 'Male', selected: false},
@@ -56,9 +60,9 @@ export class SurveyFormComponent implements OnInit, OnChanges {
     {value: '0', viewValue: 'No', selected: false}
   ]; 
 
+  selectedDriveTrain = this.driveTrainOptions[0];
 
-
-  constructor(private _formBuilder: FormBuilder) {}
+  constructor(private _formBuilder: FormBuilder, private _localStorageService: LocalStorageService) {}
 
   ngOnInit() {
     this.surveyForm = new SurveyFormModel();
@@ -74,8 +78,10 @@ export class SurveyFormComponent implements OnInit, OnChanges {
     this.fourthFormGroup = this._formBuilder.group({
       drivetrainCtrl: ['', Validators.required],
       bmwDrivenNumberCtrl: ['', [Validators.required, Validators.pattern("^[0-9][0-9]*$")] ],
-      bmwDrivenModelCtrl: ['', Validators.required]
     });
+    this.fifthFormGroup = this._formBuilder.group({
+      bmwDrivenCars: this._formBuilder.array([])
+    })
   }
 
   ngOnChanges(changes: SimpleChanges){
@@ -110,8 +116,23 @@ export class SurveyFormComponent implements OnInit, OnChanges {
     this.surveyForm.BmwDrivenNumber = event;
     this.fourthFormGroup.addControl("test", new FormControl('', [Validators.required, Validators.pattern("")]));
   }
-  onBmwModelChange(event: string){
-    console.log(event);
+
+  onBmwModelChange(event: string, index: number){
+    this.carList[index] = event;
+    console.log(this.carList);
+  }
+
+  addBmwCarsOptions() {
+   console.log(this.surveyForm.BmwDrivenNumber);
+   let formArr = this.fifthFormGroup.controls.bmwDrivenCars as FormArray;
+   for(let i = 1; i <= this.surveyForm.BmwDrivenNumber; i++) {
+      formArr.push(this._formBuilder.group({
+        displayName: ['Model of driven BMW ' + i],
+        value: [''],
+        bmwCarValidator: ['', Validators.required]
+      }))
+      this.carList.push('');
+    }
   }
 
   nextStep(index: number){
@@ -138,9 +159,23 @@ export class SurveyFormComponent implements OnInit, OnChanges {
           this.finishCurrentTest("We are targeting more experienced clients, thank you for your interest", index);
         break; 
       } 
+      case 4: {
+        //statements;
+        if(this.surveyForm.BmwDrivenNumber > 0){
+          this.addBmwCarsOptions();
+          this.stepper.linear = false;
+        }
+        if(this.surveyForm.BmwDrivenNumber == 0 && this.surveyForm.DriveTrainPreferred != ""){
+          this.finishCurrentTest("Thanks for completing the form, your opinion is highly appreciated. Have a good day!", index);
+        }
+        break;
+      }
+      case 5: {
+
+      }
       default: { 
          //statements;
-         if(this.surveyForm.DriveTrainPreferred != "")
+         //if()
           this.finishCurrentTest("Thanks for completing the form, your opinion is highly appreciated. Have a good day!", index);
          break; 
       } 
@@ -167,6 +202,22 @@ export class SurveyFormComponent implements OnInit, OnChanges {
   submitForm(){
     this.testInProgress = false;
     console.log("Form has been submitted");
+    var database = this._localStorageService.get("survey-values");
+
+    let listOfSurveys  = [
+      this.surveyForm
+    ];
+    let newSurveyFormComponent: DatabaseStructure = {
+      ListOfSurveys: listOfSurveys
+    };
+
+    this._localStorageService.set("survey-form", JSON.stringify(newSurveyFormComponent));
+    var localStorage = this._localStorageService.get("survey-form");
+    console.log(localStorage);
+
+    // if(database == undefined || database == null){
+    //   database.
+    // }
   }
 
   goToStepIndex(index: number){
