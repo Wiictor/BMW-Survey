@@ -1,6 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
-
+.mat-toolbar {
+    background: #3696c7 !important;
+}
+.navbar-link{
+    background: #fff;
+    color: #3696c7;
+}
+.active{
+    background: #fff
+}
 .page-content {
     margin-top: 30px;
   }

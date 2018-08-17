@@ -3,13 +3,13 @@ import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@ang
 import { MatStepper, MatRadioChange } from '@angular/material';
 import { SurveyFormModel, DatabaseStructure } from './surveyFormModel';
 import { SelectOption } from '../shared/selectOptionInterface';
-import { LocalStorageService } from 'angular-2-local-storage';
+import { StorageLocalService } from '../shared/local-storage/storagelocal.service';
 
 @Component({
   selector: 'app-survey-form',
   templateUrl: './survey-form.component.html',
   styleUrls: ['./survey-form.component.css'],
-  providers: [FormBuilder]
+  providers: [FormBuilder, StorageLocalService]
 })
 
 export class SurveyFormComponent implements OnInit, OnChanges {
@@ -31,7 +31,7 @@ export class SurveyFormComponent implements OnInit, OnChanges {
   lastStepNumber = 4;
 
   finishText = "";
-  carList = Array<String>();
+  carList = Array<string>();
   
   genders: SelectOption[] = [
     {value: 'M', viewValue: 'Male', selected: false},
@@ -62,7 +62,8 @@ export class SurveyFormComponent implements OnInit, OnChanges {
 
   selectedDriveTrain = this.driveTrainOptions[0];
 
-  constructor(private _formBuilder: FormBuilder, private _localStorageService: LocalStorageService) {}
+  constructor(private _formBuilder: FormBuilder, 
+    private _storageLocalService: StorageLocalService) {}
 
   ngOnInit() {
     this.surveyForm = new SurveyFormModel();
@@ -170,13 +171,11 @@ export class SurveyFormComponent implements OnInit, OnChanges {
         }
         break;
       }
-      case 5: {
-
-      }
-      default: { 
-         //statements;
-         //if()
+      default: {
+        if(this.carList.indexOf("") == -1 ) {
+          this.surveyForm.BmwDrivenList = this.carList;
           this.finishCurrentTest("Thanks for completing the form, your opinion is highly appreciated. Have a good day!", index);
+        }
          break; 
       } 
     }
@@ -201,29 +200,8 @@ export class SurveyFormComponent implements OnInit, OnChanges {
 
   submitForm(){
     this.testInProgress = false;
+    this._storageLocalService.sendFormToLocalStorage(this.surveyForm);
     console.log("Form has been submitted");
-    var database = this._localStorageService.get<string>("survey-form-list");
-
-    if(database != null || database != "undefined"){
-      //var currentDatabase = database.json()
-    }
-    else{
-      let listOfSurveys  = [
-        this.surveyForm
-      ];
-      let newSurveyFormComponent: DatabaseStructure = {
-        ListOfSurveys: listOfSurveys
-      };
-  
-      this._localStorageService.set("survey-form", JSON.stringify(newSurveyFormComponent));
-    }
-    
-    var localStorage = this._localStorageService.get("survey-form-list");
-    console.log(localStorage);
-
-    // if(database == undefined || database == null){
-    //   database.
-    // }
   }
 
   goToStepIndex(index: number){
@@ -232,5 +210,4 @@ export class SurveyFormComponent implements OnInit, OnChanges {
       this.stepper.selectedIndex = index + 1;
     }
   }
-
 }

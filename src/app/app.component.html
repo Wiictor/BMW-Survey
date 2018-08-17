@@ -2,16 +2,14 @@
 <div class="container">
 <mat-toolbar color="primary">
   <span>
-    <img src="http://pngimg.com/uploads/bmw_logo/bmw_logo_PNG19712.png" class="bmw-logo">
+    <a  routerLink="/"><img src="http://pngimg.com/uploads/bmw_logo/bmw_logo_PNG19712.png" class="bmw-logo"></a>
     BMW Survey 
   </span>
   <span class="fill-remaining-space"></span>
   <ul class="nav nav-tabs">
     <li 
-      role="presentation"  
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{exact: true}">
-      <a routerLink="/">Statistics</a>
+      role="presentation">
+      <a routerLink="/statistics" routerLinkActive="active" class="navbar-link">Statistics</a>
     </li>
   </ul>
 </mat-toolbar>

@@ -81,14 +81,20 @@
     </form>
   </mat-step>
   <mat-step [stepControl]="fifthFormGroup">
-        <mat-form-field *ngFor="let guest of fifthFormGroup.controls.bmwDrivenCars.controls; let i = index">
-            <input matInput placeholder="Model of driven BMW {{i + 1}}" type="text" [value]="" (change)="onBmwModelChange($event.target.value, i)" required>
-            <br>
-        </mat-form-field>
+    <mat-form-field *ngFor="let guest of fifthFormGroup.controls.bmwDrivenCars.controls; let i = index">
+        <input matInput placeholder="Model of driven BMW {{i + 1}}" type="text" [value]="" (change)="onBmwModelChange($event.target.value, i)" required>
+        <br>
+    </mat-form-field>
+    <div class="button-container">
+      <button mat-button class="btn btn-primary" (click)="nextStep(5)">Next</button>
+    </div>
   </mat-step>
 </mat-horizontal-stepper>
 <div class="row" *ngIf="!testInProgress">
-  {{finishText}}
+  <p>{{finishText}}</p>
+  <div class="button-container">
+    <a mat-button class="btn btn-primary" routerLink="/">MAKE ANOTHER TEST</a>
+  </div>
 </div>
 
 

@@ -10,17 +10,21 @@ import { LocalStorageModule } from 'angular-2-local-storage';
 import { AppComponent } from './app.component';
 import { SurveyFormComponent } from './survey-form/survey-form.component';
 import { HomeComponent } from './home/home.component';
+import { GlobalVariablesService } from './shared/global/global-variables-service';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'survey-form', component: SurveyFormComponent}
+  {path: 'survey-form', component: SurveyFormComponent},
+  {path: 'statistics', component: StatisticsComponent}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     SurveyFormComponent,
-    HomeComponent
+    HomeComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule, FormsModule, ReactiveFormsModule,
@@ -32,7 +36,7 @@ const appRoutes: Routes = [
       storageType: 'localStorage'
     })
   ],
-  providers: [],
+  providers: [GlobalVariablesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
